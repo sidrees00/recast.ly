@@ -3,28 +3,19 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videos: props.videos,
-      currentVideo: props.videos[0]
+      videos: window.exampleVideoData,
+      currentVideo: window.exampleVideoData[0]
     };
-    
-    var that = this;
+
+    const appContext = this;
 
     this.handleVideoTitleClick = (newVideo) => {
-      that.setState({currentVideo: newVideo});
+      appContext.setState({currentVideo: newVideo});
     };
   }
 
-  componentWillMount() {
-    console.log('componentWillMount');
-  }
-
-  someFunction() {
-    console.log('some function ran..');
-  }
-
-  render() { 
+  render() {
     return <div>
-      {console.log(this.state)}
       <Nav />
       <div className="col-md-7">
         <VideoPlayer video={this.state.currentVideo}/>
