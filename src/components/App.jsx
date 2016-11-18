@@ -3,18 +3,46 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videos: window.exampleVideoData,
-      currentVideo: window.exampleVideoData[0]
+      videos: [],
+      currentVideo: {}
     };
+    this.boundStateUpdate = this.updateStateFromAPI.bind(this);
+    this.debouncedAPICall = _.debounce((options, boundStateUpdate) => this.props.searchYouTube(options, boundStateUpdate), 50, {maxWait: 50});
+  }
+
+  updateStateFromAPI(results) {
+    this.setState({
+      videos: results,
+      currentVideo: results[0]
+    });
+  }
+
+  optionsConstructor(searchQuery) {
+    return {
+      key: window.YOUTUBE_API_KEY,
+      query: searchQuery,
+      max: 5
+    };
+  }
+
+  onNewSearchbarInput (searchQuery) {
+    const options = this.optionsConstructor(searchQuery.target.value);
+    this.debouncedAPICall(options, this.boundStateUpdate);
+    // this.props.searchYouTube(options, this.boundStateUpdate); // Makes last search test pass
   }
 
   handleVideoTitleClick(newVideo) {
     this.setState({currentVideo: newVideo});
   }
 
+  componentDidMount() {
+    const options = this.optionsConstructor('javascript');
+    this.props.searchYouTube(options, this.boundStateUpdate);
+  }
+
   render() {
     return <div>
-      <Nav />
+      <Nav handleNewSearchbarInput={this.onNewSearchbarInput.bind(this)} />
       <div className="col-md-7">
         <VideoPlayer video={this.state.currentVideo}/>
       </div>
