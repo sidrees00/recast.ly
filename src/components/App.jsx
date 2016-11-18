@@ -6,12 +6,10 @@ class App extends React.Component {
       videos: window.exampleVideoData,
       currentVideo: window.exampleVideoData[0]
     };
+  }
 
-    const appContext = this;
-
-    this.handleVideoTitleClick = (newVideo) => {
-      appContext.setState({currentVideo: newVideo});
-    };
+  handleVideoTitleClick(newVideo) {
+    this.setState({currentVideo: newVideo});
   }
 
   render() {
@@ -21,7 +19,7 @@ class App extends React.Component {
         <VideoPlayer video={this.state.currentVideo}/>
       </div>
       <div className="col-md-5">
-        <VideoList handleVideoTitleClick={this.handleVideoTitleClick} videos={this.state.videos}/>
+        <VideoList handleVideoTitleClick={this.handleVideoTitleClick.bind(this)} videos={this.state.videos}/>
       </div>
     </div>;
   }
@@ -44,5 +42,5 @@ value = window.exampleVideoData
 render is a method of the app class
 render is an es6 class method must have a return statement
 
-
+return value if it is a class or just whatever is in the () if it isn't
 */

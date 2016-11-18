@@ -21,3 +21,8 @@ VideoListEntry.propTypes = {
 window.VideoListEntry = VideoListEntry;
 
 // in jsx any js has to be wrapped in {};
+// direct the onClick to the root component b/c the changes will occur on the root component
+// and define the function there.
+// onClick sets the event listener
+// cannot inovke fn here w/ onclick b/c it will be invoked immediately when compiled
+
